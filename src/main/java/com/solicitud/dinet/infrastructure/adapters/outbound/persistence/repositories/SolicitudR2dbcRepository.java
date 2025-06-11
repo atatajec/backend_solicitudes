@@ -30,8 +30,8 @@ public interface SolicitudR2dbcRepository extends ReactiveCrudRepository<Solicit
             INNER JOIN public.tipo_solicitud c ON a.tipo_solicitud_id = c.tipo_solicitud_id
             INNER JOIN public.contactos_solicitud d ON a.solicitud_id = d.solicitud_id AND d.tipo = 1
             INNER JOIN public.contactos e ON d.contacto_id = e.contacto_id
-            WHERE (:marca IS NULL OR b.descripcion ILIKE :marca)
-            AND (:tipoSolicitud IS NULL OR c.descripcion ILIKE :tipoSolicitud)
+            WHERE (:marca IS NULL OR b.descripcion LIKE :marca)
+            AND (:tipoSolicitud IS NULL OR c.descripcion LIKE :tipoSolicitud)
             AND a.fecha_envio BETWEEN :fechaEnvioDesde AND :fechaEnvioHasta
             """)
     Flux<SolicitudDetalleEntity> findBySolicitudFiltro(
@@ -39,4 +39,33 @@ public interface SolicitudR2dbcRepository extends ReactiveCrudRepository<Solicit
         @Param("marca") String marca,
         @Param("fechaEnvioDesde") LocalDate fechaEnvioDesde,
         @Param("fechaEnvioHasta") LocalDate fechaEnvioHasta);
+
+    @Query("""
+            SELECT 
+                a.codigo_solicitud AS codigosolicitud, 
+                b.descripcion AS marca, 
+                a.fecha_envio AS fechaenvio, 
+                c.descripcion AS tipo,
+                e.nombre_contacto AS nombrecontacto, 
+                e.numero_contacto AS numerocontacto
+            FROM public.solicitudes a
+            INNER JOIN public.marcas b ON a.marca_id = b.marca_id
+            INNER JOIN public.tipo_solicitud c ON a.tipo_solicitud_id = c.tipo_solicitud_id
+            INNER JOIN public.contactos_solicitud d ON a.solicitud_id = d.solicitud_id AND d.tipo = 1
+            INNER JOIN public.contactos e ON d.contacto_id = e.contacto_id
+            WHERE a.codigo_solicitud = :codigo
+            """)
+    Mono<SolicitudDetalleEntity> findBySolicitudCodigo(
+        @Param("codigo") String codigo);
+
+    @Query("""
+            SELECT b.nombre_contacto AS nombrecontacto, 
+                b.numero_contacto AS numerocontacto 
+            FROM public.contactos_solicitud a
+            INNER JOIN public.contactos b ON a.contacto_id = b.contacto_id
+            INNER JOIN public.solicitudes c ON a.solicitud_id = c.solicitud_id 
+            WHERE c.codigo_solicitud = :codigo
+            """)
+    Flux<SolicitudDetalleEntity> findByContactoPorCodigo(
+        @Param("codigo") String codigo);
 }

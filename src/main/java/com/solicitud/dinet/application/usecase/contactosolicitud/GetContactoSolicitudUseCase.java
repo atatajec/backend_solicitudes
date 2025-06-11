@@ -38,4 +38,9 @@ public class GetContactoSolicitudUseCase {
                 .doOnComplete(() -> log.info("Se recuperaron todas los Contactos solicitud"));
     }
 
+    public Flux<ContactoSolicitud> findByCodigo(UUID codigo){
+        return repository.findByCodigo(codigo)
+                .doOnComplete(() -> log.info("Se recuperaron todas los Contactos solicitud"));
+    }
+
 }

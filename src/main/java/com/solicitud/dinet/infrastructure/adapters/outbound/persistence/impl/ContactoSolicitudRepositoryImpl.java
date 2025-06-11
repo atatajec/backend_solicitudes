@@ -43,4 +43,9 @@ public class ContactoSolicitudRepositoryImpl implements ContactoSolicitudReposit
         return r2dbcRepository.findAll().map(mapper::toDomain);
     }
 
+    @Override
+    public Flux<ContactoSolicitud> findByCodigo(UUID codigo) {
+        return r2dbcRepository.findBySolicitudId(codigo).map(mapper::toDomain);
+    }
+
 }

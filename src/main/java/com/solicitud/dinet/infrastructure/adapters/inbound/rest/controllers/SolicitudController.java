@@ -2,6 +2,7 @@ package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,12 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.solicitud.dinet.application.usecase.contacto.GetContactoUseCase;
 import com.solicitud.dinet.application.usecase.solicitud.CreateSolicitudUseCase;
 import com.solicitud.dinet.application.usecase.solicitud.GetSolicitudesUseCase;
 import com.solicitud.dinet.domain.models.SolicitudFiltro;
+import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.contacto.ContactoResponseDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudDetalleResponseDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudRequestDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudResponseDto;
+import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.ContactoDtoMapper;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.SolicitudDetalleDtoMapper;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.SolicitudDtoMapper;
 
@@ -47,6 +51,8 @@ public class SolicitudController {
     private final SolicitudDtoMapper dtoMapper;
     private final GetSolicitudesUseCase getSolicitudUseCase;
     private final SolicitudDetalleDtoMapper dtoDetMapper;
+    private final GetContactoUseCase getContactoSolUseCase;
+    private final ContactoDtoMapper dtoMapperContacto;
 
     @PostMapping
     @Operation(summary = "Crear solicitud")
@@ -98,6 +104,30 @@ public class SolicitudController {
                 .collectList()
                 .map(lista -> {
                     ResponseApi<List<SolicitudDetalleResponseDto>> apiResponse = ResponseApi.<List<SolicitudDetalleResponseDto>>builder()
+                        .success(true)
+                        .message("Listado de solicitudes")
+                        .data(lista)
+                        .build();
+
+                    return ResponseEntity.status(HttpStatus.OK).body(apiResponse);                    
+                });
+    }
+
+    @GetMapping("/contactos")
+    @Operation(summary = "Listar Contactos Solicitudes")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Solicitudes retrieved successfully")
+    })
+    public Mono<ResponseEntity<ResponseApi<List<ContactoResponseDto>>>> getSolicitudes(
+        @RequestParam(name = "codigo", required = true) UUID codigo
+    )
+    {
+        log.info("codigo: {}", codigo);
+        return getContactoSolUseCase.findByContactoPorSolicitud(codigo)
+                .map(dtoMapperContacto::toResponseDto)
+                .collectList()
+                .map(lista -> {
+                    ResponseApi<List<ContactoResponseDto>> apiResponse = ResponseApi.<List<ContactoResponseDto>>builder()
                         .success(true)
                         .message("Listado de solicitudes")
                         .data(lista)

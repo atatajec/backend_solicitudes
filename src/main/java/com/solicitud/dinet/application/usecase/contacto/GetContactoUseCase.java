@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.solicitud.dinet.application.usecase.contactosolicitud.GetContactoSolicitudUseCase;
 import com.solicitud.dinet.domain.models.Contacto;
 import com.solicitud.dinet.domain.repository.ContactoRepository;
 
@@ -17,6 +18,7 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class GetContactoUseCase {
     private final ContactoRepository repository;
+    private final GetContactoSolicitudUseCase contactoSolUseCase;
 
     public Mono<Contacto> findById(UUID id)
     {
@@ -47,6 +49,15 @@ public class GetContactoUseCase {
         log.info("Encontrar por Nombre");
         return repository.findByNombre(nombre)
                 .doOnSuccess(obj -> log.info("Se recuperaron la persona"));
+    }
+
+    public Flux<Contacto> findByContactoPorSolicitud(UUID codigo)
+    {
+        return contactoSolUseCase.findByCodigo(codigo) // Flux<ContactoSolicitud>
+        .flatMap(contactoSolicitud -> {
+            UUID contactoId = contactoSolicitud.getContactoId();
+            return findById(contactoId); // Mono<Contacto>
+        });
     }
 
 }

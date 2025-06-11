@@ -14,4 +14,5 @@ public interface ContactoSolicitudRepository {
     Mono<ContactoSolicitud> save(ContactoSolicitud contactoSolicitud);
     Mono<ContactoSolicitud> findById(UUID id);
     Flux<ContactoSolicitud> findAll();
+    Flux<ContactoSolicitud> findByCodigo(UUID codigo);
 }
