@@ -22,15 +22,15 @@ public class SolicitudDetalleResponseDto {
     private String marca;
 
     @Schema(description = "Fecha envío", example = "2025-06-11")
-    private LocalDate fecha_envio;
+    private LocalDate fechaEnvio;
 
     @Schema(description = "Tipo", example = "TIPO 1")
     private String tipo;
 
     @Schema(description = "Nombre", example = "ALEXIS TATAJE")
-    private String nombre;
+    private String nombreContacto;
 
     @Schema(description = "Número", example = "939733228")
-    private String numero;
+    private String numeroContacto;
 
 }
