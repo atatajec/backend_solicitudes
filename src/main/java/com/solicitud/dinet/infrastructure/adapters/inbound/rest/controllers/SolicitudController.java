@@ -99,7 +99,7 @@ public class SolicitudController {
                 .map(lista -> {
                     ResponseApi<List<SolicitudDetalleResponseDto>> apiResponse = ResponseApi.<List<SolicitudDetalleResponseDto>>builder()
                         .success(true)
-                        .message("Listado de marcas")
+                        .message("Listado de solicitudes")
                         .data(lista)
                         .build();
 
