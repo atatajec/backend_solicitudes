@@ -1,6 +1,5 @@
 package com.solicitud.dinet.infrastructure.adapters.outbound.persistence.impl;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;

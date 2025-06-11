@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 public class SolicitudDetalle {
     private String codigoSolicitud;
     private String marca;
-    private LocalDate fecha_envio;
+    private LocalDate fechaEnvio;
     private String tipo;
     private String nombreContacto;
     private String numeroContacto;

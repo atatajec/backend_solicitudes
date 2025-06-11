@@ -3,7 +3,6 @@ package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 import java.time.LocalDate;
 import java.util.List;
 
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -26,7 +25,6 @@ import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.Solicitu
 import com.solicitud.dinet.interfaces.http.ResponseApi;
 
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
