@@ -1,5 +1,6 @@
 package com.solicitud.dinet.infrastructure.adapters.outbound.persistence.impl;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 import org.springframework.stereotype.Repository;
@@ -57,7 +58,7 @@ public class SolicitudRepositoryImpl implements SolicitudRepository {
 
     @Override
     public Flux<SolicitudDetalle> buscarSolicitudesConFiltros(SolicitudFiltro filtro) {
-        return r2dbcRepository.findBySolicitudFiltro(filtro.getTipo(), filtro.getMarca(), filtro.getFechaDesde(), filtro.getFechaHasta())
+        return r2dbcRepository.findBySolicitudFiltro(filtro.getTipo(), filtro.getMarca(), filtro.getFechaDesde(),filtro.getFechaHasta())
                     .map(mapperDet::toDomain);
     }
 

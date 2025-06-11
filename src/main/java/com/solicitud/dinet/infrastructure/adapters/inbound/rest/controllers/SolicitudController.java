@@ -1,7 +1,9 @@
 package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -9,17 +11,22 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solicitud.dinet.application.usecase.solicitud.CreateSolicitudUseCase;
-import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.marca.MarcaResponseDto;
+import com.solicitud.dinet.application.usecase.solicitud.GetSolicitudesUseCase;
+import com.solicitud.dinet.domain.models.SolicitudFiltro;
+import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudDetalleResponseDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudRequestDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudResponseDto;
+import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.SolicitudDetalleDtoMapper;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.SolicitudDtoMapper;
 
 import com.solicitud.dinet.interfaces.http.ResponseApi;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -40,6 +47,8 @@ public class SolicitudController {
 
     private final CreateSolicitudUseCase createSolicitudUseCase;
     private final SolicitudDtoMapper dtoMapper;
+    private final GetSolicitudesUseCase getSolicitudUseCase;
+    private final SolicitudDetalleDtoMapper dtoDetMapper;
 
     @PostMapping
     @Operation(summary = "Crear solicitud")
@@ -68,24 +77,35 @@ public class SolicitudController {
                 .doOnError(e -> log.error("Error creating solicitud", e));
     }
 
-    // @GetMapping
-    // @Operation(summary = "Listar Solicitudes")
-    // @ApiResponses(value = {
-    //     @ApiResponse(responseCode = "200", description = "Solicitudes retrieved successfully")
-    // })
-    // public Mono<ResponseEntity<ResponseApi<List<MarcaResponseDto>>>> getAllMarca()
-    // {
-    //     return getMarcaUseCase.findAll()
-    //             .map(dtoMapper::toResponseDto)
-    //             .collectList()
-    //             .map(lista -> {
-    //                 ResponseApi<List<MarcaResponseDto>> apiResponse = ResponseApi.<List<MarcaResponseDto>>builder()
-    //                     .success(true)
-    //                     .message("Listado de marcas")
-    //                     .data(lista)
-    //                     .build();
+    @GetMapping
+    @Operation(summary = "Listar Solicitudes")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Solicitudes retrieved successfully")
+    })
+    public Mono<ResponseEntity<ResponseApi<List<SolicitudDetalleResponseDto>>>> getSolicitudes(
+        @RequestParam(name = "tipoSolicitud", required = false) String tipoSolicitud,
+        @RequestParam(name = "marca", required = false) String marca,
+        @RequestParam(name = "fechaEnvioDesde") LocalDate fechaEnvioDesde,
+        @RequestParam(name = "fechaEnvioHasta") LocalDate fechaEnvioHasta
+    )
+    {
+        log.info("tipoSolicitud: {}", tipoSolicitud);
+        log.info("marca: {}", marca);
+        log.info("fechaEnvioDesde: {}", fechaEnvioDesde);
+        log.info("fechaEnvioHasta: {}", fechaEnvioHasta);
 
-    //                 return ResponseEntity.status(HttpStatus.OK).body(apiResponse);                    
-    //             });
-    // }
+        SolicitudFiltro filtro = new SolicitudFiltro(tipoSolicitud, marca, fechaEnvioDesde, fechaEnvioHasta);
+        return getSolicitudUseCase.execute(filtro)
+                .map(dtoDetMapper::toResponseDto)
+                .collectList()
+                .map(lista -> {
+                    ResponseApi<List<SolicitudDetalleResponseDto>> apiResponse = ResponseApi.<List<SolicitudDetalleResponseDto>>builder()
+                        .success(true)
+                        .message("Listado de marcas")
+                        .data(lista)
+                        .build();
+
+                    return ResponseEntity.status(HttpStatus.OK).body(apiResponse);                    
+                });
+    }
 }
