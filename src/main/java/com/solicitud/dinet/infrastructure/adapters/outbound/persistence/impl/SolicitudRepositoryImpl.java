@@ -68,4 +68,10 @@ public class SolicitudRepositoryImpl implements SolicitudRepository {
         throw new UnsupportedOperationException("Unimplemented method 'buscarSolicitudPorId'");
     }
 
+    @Override
+    public Mono<Solicitud> buscarSolicitudPorCodigo(String codigo) {
+        return r2dbcRepository.findByCodigoSolicitud(codigo)
+                    .map(mapper::toDomain);
+    }
+
 }

@@ -4,6 +4,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.solicitud.dinet.domain.models.Solicitud;
 import com.solicitud.dinet.domain.models.SolicitudDetalle;
 import com.solicitud.dinet.domain.models.SolicitudFiltro;
 import com.solicitud.dinet.domain.repository.SolicitudRepository;
@@ -32,6 +33,13 @@ public class GetSolicitudesUseCase {
         return solicitudRepository.buscarSolicitudPorId(solicitudId)
                 .doOnNext(solicitud -> log.debug("Solicitud encontrada: {}", solicitud))
                 .switchIfEmpty(Mono.fromRunnable(() -> log.warn("No se encontró solicitud con ID: {}", solicitudId))
+                        .then(Mono.empty()));
+    }
+
+    public Mono<Solicitud> buscarPorCodigo(String codigo){
+        return solicitudRepository.buscarSolicitudPorCodigo(codigo)
+                .doOnNext(solicitud -> log.debug("Solicitud encontrada: {}", solicitud))
+                .switchIfEmpty(Mono.fromRunnable(() -> log.warn("No se encontró solicitud con Codigo: {}", codigo))
                         .then(Mono.empty()));
     }
 }

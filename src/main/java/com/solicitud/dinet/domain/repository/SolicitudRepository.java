@@ -19,4 +19,5 @@ public interface SolicitudRepository {
     Mono<Boolean> existsByCodigoSolicitud(String codigoSolicitud);
     Flux<SolicitudDetalle> buscarSolicitudesConFiltros(SolicitudFiltro filtro);
     Mono<SolicitudDetalle> buscarSolicitudPorId(UUID solicitudId);
+    Mono<Solicitud> buscarSolicitudPorCodigo(String codigo);
 }

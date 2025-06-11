@@ -2,7 +2,6 @@ package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -119,7 +118,7 @@ public class SolicitudController {
         @ApiResponse(responseCode = "200", description = "Solicitudes retrieved successfully")
     })
     public Mono<ResponseEntity<ResponseApi<List<ContactoResponseDto>>>> getSolicitudes(
-        @RequestParam(name = "codigo", required = true) UUID codigo
+        @RequestParam(name = "codigo", required = true) String codigo
     )
     {
         log.info("codigo: {}", codigo);
