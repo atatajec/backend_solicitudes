@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateContactoSolicitudCommand {
+    private Integer tipo;
     private UUID solicitudId;
     private UUID contactoId;
     private String usuario;

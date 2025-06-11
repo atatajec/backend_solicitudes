@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,6 +34,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/tiposolicitud")
 @RequiredArgsConstructor
 @Tag(name = "Tipo Solicitud")
+@CrossOrigin(origins = "*")
 public class TipoSolicitudController {
 
     private final CreateTipoSolicitudUseCase createTipoSolicitudUseCase;
@@ -83,7 +85,7 @@ public class TipoSolicitudController {
                         .data(lista)
                         .build();
 
-                    return ResponseEntity.status(HttpStatus.CREATED).body(apiResponse);                    
+                    return ResponseEntity.status(HttpStatus.OK).body(apiResponse);                    
                 });
     }
 

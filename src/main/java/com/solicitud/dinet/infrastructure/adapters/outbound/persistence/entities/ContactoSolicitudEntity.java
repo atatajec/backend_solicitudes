@@ -22,6 +22,9 @@ public class ContactoSolicitudEntity {
     @Column("contacto_solicitud_id")
     private UUID contactoSolicitudId;
 
+    @Column("tipo")
+    private Integer tipo;
+
     @Column("solicitud_id")
     private UUID solicitudId;
 

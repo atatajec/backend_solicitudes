@@ -2,6 +2,7 @@ package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +30,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/contactosolicitud")
 @RequiredArgsConstructor
 @Tag(name = "Contacto Solicitud")
+@CrossOrigin(origins = "*")
 public class ContactoSolicitudController {
 
     private final CreateContactoSolicitudUseCase createUseCase;

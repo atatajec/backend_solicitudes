@@ -18,8 +18,10 @@ public class CreateContactoSolicitudUseCase {
 
     public Mono<ContactoSolicitud> execute(CreateContactoSolicitudCommand command)
     {
-        log.info("Crear nuevo contacto solicitud: {} {}", command.getSolicitudId(), command.getContactoId());
+        log.info("Crear nuevo contacto solicitud: {} {} {}", command.getSolicitudId(), command.getContactoId(), command.getTipo());
+        log.info("Tipo: {}", command.getTipo());
         ContactoSolicitud contacto = ContactoSolicitud.create(
+            command.getTipo(),
             command.getSolicitudId(),
             command.getContactoId(),
             command.getUsuario()

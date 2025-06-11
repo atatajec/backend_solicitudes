@@ -56,7 +56,7 @@ public class CreateSolicitudUseCase {
                                 )
                                 .flatMap(contacto -> {
                                         CreateContactoSolicitudCommand relacionCommand =
-                                                new CreateContactoSolicitudCommand(solicitudGuardada.getSolicitudId(), contacto.getContactoId(), command.getUsuario());
+                                                new CreateContactoSolicitudCommand(1, solicitudGuardada.getSolicitudId(), contacto.getContactoId(), command.getUsuario());
 
                                         return createContactoSolicitudUseCase.execute(relacionCommand)
                                                 .thenReturn(solicitudGuardada);

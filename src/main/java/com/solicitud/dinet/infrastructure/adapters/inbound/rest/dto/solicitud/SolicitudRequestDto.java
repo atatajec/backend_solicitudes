@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @Schema(description = "Request DTO for creating or updating a solicitud")
 public class SolicitudRequestDto {
     
-@NotNull(message = "Marca ID is required")
+    @NotNull(message = "Marca ID is required")
     @Positive(message = "Marca ID must be positive")
     @Schema(description = "ID of the marca", example = "1")
     private String marcaId;

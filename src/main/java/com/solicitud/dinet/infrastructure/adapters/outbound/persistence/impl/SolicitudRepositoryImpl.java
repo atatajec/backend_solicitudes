@@ -5,7 +5,10 @@ import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 import com.solicitud.dinet.domain.models.Solicitud;
+import com.solicitud.dinet.domain.models.SolicitudDetalle;
+import com.solicitud.dinet.domain.models.SolicitudFiltro;
 import com.solicitud.dinet.domain.repository.SolicitudRepository;
+import com.solicitud.dinet.infrastructure.adapters.outbound.persistence.mappers.SolicitudDetalleMapper;
 import com.solicitud.dinet.infrastructure.adapters.outbound.persistence.mappers.SolicitudMapper;
 import com.solicitud.dinet.infrastructure.adapters.outbound.persistence.repositories.SolicitudR2dbcRepository;
 
@@ -21,6 +24,8 @@ public class SolicitudRepositoryImpl implements SolicitudRepository {
     
     private final SolicitudR2dbcRepository r2dbcRepository;
     private final SolicitudMapper mapper;
+    private final SolicitudDetalleMapper mapperDet;
+
 
     @Override
     public Mono<Solicitud> save(Solicitud solicitud) {
@@ -48,6 +53,18 @@ public class SolicitudRepositoryImpl implements SolicitudRepository {
     public Mono<Boolean> existsByCodigoSolicitud(String codigoSolicitud) {
         log.debug("Comprobando si existe por codigo: {}", codigoSolicitud);
         return r2dbcRepository.existsByCodigoSolicitud(codigoSolicitud);
+    }
+
+    @Override
+    public Flux<SolicitudDetalle> buscarSolicitudesConFiltros(SolicitudFiltro filtro) {
+        return r2dbcRepository.findBySolicitudFiltro(filtro.getTipo(), filtro.getMarca(), filtro.getFechaDesde(), filtro.getFechaHasta())
+                    .map(mapperDet::toDomain);
+    }
+
+    @Override
+    public Mono<SolicitudDetalle> buscarSolicitudPorId(UUID solicitudId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscarSolicitudPorId'");
     }
 
 }

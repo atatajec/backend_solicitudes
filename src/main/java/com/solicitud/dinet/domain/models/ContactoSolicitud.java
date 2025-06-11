@@ -17,6 +17,7 @@ import lombok.NoArgsConstructor;
 public class ContactoSolicitud {
     @Id
     private UUID contactoSolicitudId;
+    private Integer tipo;
     private UUID solicitudId;
     private UUID contactoId;
     private String estado;
@@ -25,8 +26,9 @@ public class ContactoSolicitud {
     private LocalDateTime fechaModificacion;
     private String usuarioModificacion;
 
-    public static ContactoSolicitud create(UUID solicitudId, UUID contactoId, String usuario) {
+    public static ContactoSolicitud create(Integer tipo, UUID solicitudId, UUID contactoId, String usuario) {
         return ContactoSolicitud.builder()
+                .tipo(tipo)
                 .solicitudId(solicitudId)
                 .contactoId(contactoId)
                 .estado("ACTIVO")

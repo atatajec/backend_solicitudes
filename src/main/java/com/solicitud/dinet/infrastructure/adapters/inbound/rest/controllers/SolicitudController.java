@@ -1,13 +1,18 @@
 package com.solicitud.dinet.infrastructure.adapters.inbound.rest.controllers;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.solicitud.dinet.application.usecase.solicitud.CreateSolicitudUseCase;
+import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.marca.MarcaResponseDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudRequestDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.dto.solicitud.SolicitudResponseDto;
 import com.solicitud.dinet.infrastructure.adapters.inbound.rest.mappers.SolicitudDtoMapper;
@@ -30,6 +35,7 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/api/v1/solicitudes")
 @RequiredArgsConstructor
 @Tag(name = "Solicitudes")
+@CrossOrigin(origins = "*")
 public class SolicitudController {
 
     private final CreateSolicitudUseCase createSolicitudUseCase;
@@ -61,4 +67,25 @@ public class SolicitudController {
                 .doOnSuccess(r -> log.info("Solicitud created successfully"))
                 .doOnError(e -> log.error("Error creating solicitud", e));
     }
+
+    // @GetMapping
+    // @Operation(summary = "Listar Solicitudes")
+    // @ApiResponses(value = {
+    //     @ApiResponse(responseCode = "200", description = "Solicitudes retrieved successfully")
+    // })
+    // public Mono<ResponseEntity<ResponseApi<List<MarcaResponseDto>>>> getAllMarca()
+    // {
+    //     return getMarcaUseCase.findAll()
+    //             .map(dtoMapper::toResponseDto)
+    //             .collectList()
+    //             .map(lista -> {
+    //                 ResponseApi<List<MarcaResponseDto>> apiResponse = ResponseApi.<List<MarcaResponseDto>>builder()
+    //                     .success(true)
+    //                     .message("Listado de marcas")
+    //                     .data(lista)
+    //                     .build();
+
+    //                 return ResponseEntity.status(HttpStatus.OK).body(apiResponse);                    
+    //             });
+    // }
 }
