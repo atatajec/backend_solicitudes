@@ -23,7 +23,7 @@ public class GetSolicitudesUseCase {
     public Flux<SolicitudDetalle> execute(SolicitudFiltro filtro) {
         log.info("Buscando solicitudes con filtros: {}", filtro);
         return solicitudRepository.buscarSolicitudesConFiltros(filtro)
-                .doOnNext(solicitud -> log.debug("Solicitud encontrada: {}", solicitud.getCodigoSolicitud()))
+                .doOnNext(solicitud -> log.debug("Solicitud encontrada: {}", solicitud.getCodigosolicitud()))
                 .doOnComplete(() -> log.info("Búsqueda completada"));
     }
     

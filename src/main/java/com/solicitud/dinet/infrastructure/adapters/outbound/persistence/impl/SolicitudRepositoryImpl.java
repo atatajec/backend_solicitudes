@@ -58,7 +58,8 @@ public class SolicitudRepositoryImpl implements SolicitudRepository {
     @Override
     public Flux<SolicitudDetalle> buscarSolicitudesConFiltros(SolicitudFiltro filtro) {
         return r2dbcRepository.findBySolicitudFiltro(filtro.getTipo(), filtro.getMarca(), filtro.getFechaDesde(),filtro.getFechaHasta())
-                    .map(mapperDet::toDomain);
+                    .map(mapperDet::toDomain)
+                    .doOnNext(solicitud -> log.info("Solicitud encontrada: {}", solicitud));
     }
 
     @Override

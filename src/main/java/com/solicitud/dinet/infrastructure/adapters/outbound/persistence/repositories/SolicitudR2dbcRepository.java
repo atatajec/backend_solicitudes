@@ -19,12 +19,12 @@ public interface SolicitudR2dbcRepository extends ReactiveCrudRepository<Solicit
 
     @Query("""
             SELECT 
-                a.codigo_solicitud AS codigoSolicitud, 
+                a.codigo_solicitud AS codigosolicitud, 
                 b.descripcion AS marca, 
-                a.fecha_envio AS fechaEnvio, 
+                a.fecha_envio AS fechaenvio, 
                 c.descripcion AS tipo,
-                e.nombre_contacto AS nombreContacto, 
-                e.numero_contacto AS numeroContacto
+                e.nombre_contacto AS nombrecontacto, 
+                e.numero_contacto AS numerocontacto
             FROM public.solicitudes a
             INNER JOIN public.marcas b ON a.marca_id = b.marca_id
             INNER JOIN public.tipo_solicitud c ON a.tipo_solicitud_id = c.tipo_solicitud_id

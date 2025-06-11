@@ -16,21 +16,21 @@ import lombok.NoArgsConstructor;
 public class SolicitudDetalleResponseDto {
 
     @Schema(description = "Codigo", example = "SOL-ABC12345")
-    private String codigoSolicitud;
+    private String codigosolicitud;
 
     @Schema(description = "Marca", example = "DINER")
     private String marca;
 
     @Schema(description = "Fecha envío", example = "2025-06-11")
-    private LocalDate fechaEnvio;
+    private LocalDate fechaenvio;
 
     @Schema(description = "Tipo", example = "TIPO 1")
     private String tipo;
 
     @Schema(description = "Nombre", example = "ALEXIS TATAJE")
-    private String nombreContacto;
+    private String nombrecontacto;
 
     @Schema(description = "Número", example = "939733228")
-    private String numeroContacto;
+    private String numerocontacto;
 
 }

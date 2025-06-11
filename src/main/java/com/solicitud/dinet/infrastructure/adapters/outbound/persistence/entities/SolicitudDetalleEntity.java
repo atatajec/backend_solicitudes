@@ -13,11 +13,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SolicitudDetalleEntity {
 
-    private String codigoSolicitud;
+    private String codigosolicitud;
     private String marca;
-    private LocalDate fechaEnvio;
+    private LocalDate fechaenvio;
     private String tipo;
-    private String nombreContacto;
-    private String numeroContacto;
+    private String nombrecontacto;
+    private String numerocontacto;
 
 }

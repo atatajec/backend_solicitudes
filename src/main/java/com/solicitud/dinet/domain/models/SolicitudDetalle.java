@@ -12,10 +12,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SolicitudDetalle {
-    private String codigoSolicitud;
+    private String codigosolicitud;
     private String marca;
-    private LocalDate fechaEnvio;
+    private LocalDate fechaenvio;
     private String tipo;
-    private String nombreContacto;
-    private String numeroContacto;
+    private String nombrecontacto;
+    private String numerocontacto;
 }
